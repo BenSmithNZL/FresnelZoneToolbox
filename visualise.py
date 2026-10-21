@@ -1,6 +1,7 @@
+import matplotlib.pyplot as plt
 import numpy as np
 from scipy.spatial import ConvexHull
-import matplotlib.pyplot as plt
+
 
 def plot_fresnel_zone(points: np.ndarray) -> None:
     projections = [
@@ -13,7 +14,7 @@ def plot_fresnel_zone(points: np.ndarray) -> None:
     fig, axes = plt.subplots(1, 3, figsize=(15, 5))
 
 
-    for ax, (name, i, j) in zip(axes, projections):
+    for ax, (name, i, j) in zip(axes, projections, strict=True):
         xy = points[:, [i, j]]
         hull = ConvexHull(xy)
 

@@ -5,12 +5,16 @@ import numpy as np
 C = 299792458  # speed of light in meters per second
 
 
-def distance(A: np.ndarray, B: np.ndarray) -> float:
+def distance(
+    A: np.ndarray, B: np.ndarray
+) -> float:
     """Calculates the Euclidean distance between points A and B."""
     return math.sqrt((B[0] - A[0]) ** 2 + (B[1] - A[1]) ** 2 + (B[2] - A[2]) ** 2)
 
 
-def heading_vector(A: np.ndarray, B: np.ndarray) -> np.ndarray:
+def heading_vector(
+    A: np.ndarray, B: np.ndarray
+) -> np.ndarray:
     """Calculates the a normalised vector pointing from point A to point B."""
     heading_vector = (np.array(B) - np.array(A)) / distance(A, B)
     return heading_vector
@@ -20,6 +24,12 @@ def fresnel_zone_radius(
     A: np.ndarray, B: np.ndarray, n: int, frequency_hz: float, d1_m: float
 ) -> float:
     """Calculates the radius of the nth Fresnel zone at a given distance from point A"""
+    if isinstance(n, bool) or not isinstance(n, (int, np.integer)):
+        raise TypeError("n must be an integer.")
+    
+    if n < 1:
+        raise ValueError("n must be a positive integer.")
+        
     if frequency_hz <= 0:
         raise ValueError("Frequency must be a positive value.")
     
@@ -41,7 +51,9 @@ def fresnel_zone_radius(
     return radius_m
 
 
-def theoretical_volume(A: np.ndarray, B: np.ndarray, frequency_hz: float) -> float:
+def theoretical_volume(
+    A: np.ndarray, B: np.ndarray, frequency_hz: float
+) -> float:
     """Calculates the volume of the ellipsoid defined by points A and B."""
     
     semi_major_axis_length_m = distance(A, B) / 2
@@ -59,7 +71,9 @@ def theoretical_volume(A: np.ndarray, B: np.ndarray, frequency_hz: float) -> flo
     return volume_m3
     
 
-def ring_centres(A: np.ndarray, B: np.ndarray, num_of_rings: int) -> np.ndarray:
+def ring_centres(
+    A: np.ndarray, B: np.ndarray, num_of_rings: int
+) -> np.ndarray:
     """Calculates the coordinates of the centres of the rings along the line of sight (LOS)."""
     ring_centres_x: np.ndarray = np.linspace(A[0], B[0], num_of_rings + 2)[1:-1]
     ring_centres_y: np.ndarray = np.linspace(A[1], B[1], num_of_rings + 2)[1:-1]
@@ -70,7 +84,9 @@ def ring_centres(A: np.ndarray, B: np.ndarray, num_of_rings: int) -> np.ndarray:
     return ring_centres
 
 
-def rotate_vector(v: np.ndarray, angle_degrees: float, axis: np.ndarray) -> np.ndarray:
+def rotate_vector(
+    v: np.ndarray, angle_degrees: float, axis: np.ndarray
+) -> np.ndarray:
     """Rotates vector v around the given axis by the specified angle in degrees."""
     angle_radians = np.radians(angle_degrees)
     axis = axis / np.linalg.norm(axis)  # Normalize the rotation axis
@@ -117,6 +133,8 @@ def fresnel_zone_points(
             
     return np.array(points)
 
-def save_points_to_csv(points: np.ndarray, filename: str) -> None:
+def save_points_to_csv(
+    points: np.ndarray, filename: str
+) -> None:
     """Saves the points to a CSV file."""
     np.savetxt(f"data/{filename}", points, delimiter=",", header="Easting,Northing,Z", comments="")

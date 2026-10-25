@@ -3,11 +3,19 @@ pythonpath = ["."]
 testpaths = ["tests"]
 
 [tool.ruff]
-line-length = 100
-target-version = "py310"
+line-length = 79
+target-version = "py314"
 
 [tool.ruff.lint]
-select = ["E", "F", "I", "B", "UP", "NPY"]
+select = [
+    "A", "ANN", "ARG", "B", "C4", "COM", 
+    "D", "E", "ERA", "F", "I",
+    "ISC", "N", "NPY", "PERF",
+    "Q", "RUF", "SIM", "TC", "UP"
+]
+ignore = [
+    "COM812", "D205", "ANN001", "D103"
+]
 
 [tool.ruff.format]
 quote-style = "double"

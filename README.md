@@ -41,7 +41,7 @@ where:
 ```bash
 # 1. Clone the repo
 git clone https://github.com/BenSmithNZL/FresnelZoneToolbox.git
-cd [the_chase]
+cd [FresnelZoneToolbox]
 
 # 2. Create an environment and install dependencies
 python -m venv .venv
